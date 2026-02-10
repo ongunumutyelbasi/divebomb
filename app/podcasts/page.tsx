@@ -72,27 +72,28 @@ export default function PodcastsPage() {
 
             <main className="flex-grow">
                 {/* Hero Section */}
-                <div className="relative overflow-hidden bg-white dark:bg-neutral-950 border-b border-neutral-200 dark:border-neutral-800 h-[300px] flex items-center">
+                <div className="relative overflow-hidden bg-neutral-900 dark:bg-neutral-950 border-b border-neutral-200 dark:border-neutral-800 h-[250px] flex items-center">
                     <div className="absolute inset-0 z-0">
                         <img 
                             src="/Jolt4.avif" 
                             alt="Background" 
-                            className="w-full h-full object-cover object-left opacity-60 dark:opacity-40"
+                            className="w-full h-full object-cover object-left opacity-70 dark:opacity-40"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-l from-white via-white/60 to-transparent dark:from-neutral-950 dark:via-neutral-950/60 dark:to-transparent" />
+                        <div className="absolute inset-0 bg-gradient-to-l from-neutral-900/70 via-neutral-900/40 to-transparent dark:from-neutral-950 dark:via-neutral-950/60 dark:to-transparent" />
                     </div>
+                    
                     <div className="absolute inset-0 opacity-[0.05] dark:opacity-[0.08] z-5" style={{ backgroundImage: `linear-gradient(to right, #888 1px, transparent 1px), linear-gradient(to bottom, #888 1px, transparent 1px)`, backgroundSize: '20px 20px' }} />
                     
                     <div className="max-w-7xl mx-auto px-6 w-full relative z-10">
                         <div className="max-w-xl ml-auto">
                             <div className="flex items-center gap-2 mb-2">
-                                <span className="h-[2px] w-4 bg-neutral-500 dark:bg-db-lime" />
-                                <span className="text-[10px] font-black uppercase tracking-tight text-neutral-500 dark:text-db-lime italic">Audio Experience</span>
+                                <span className="h-[2px] w-4 bg-db-lime" />
+                                <span className="text-[10px] font-black uppercase tracking-tight text-db-lime italic">Audio Experience</span>
                             </div>
-                            <h1 className="text-2xl md:text-3xl font-black tracking-tighter uppercase italic text-neutral-900 dark:text-white mb-3">
+                            <h1 className="text-2xl md:text-3xl font-black tracking-tighter uppercase italic text-white mb-3">
                                 Podcasts
                             </h1>
-                            <p className="text-xs md:text-sm font-medium leading-[1.2] text-neutral-600 dark:text-neutral-400">
+                            <p className="text-xs md:text-sm font-medium leading-[1.2] text-neutral-200 dark:text-neutral-400">
                                 Beyond the written word. Join our editors and special guests as we dissect the world of motorsport through long-form discussion and expert analysis.
                             </p>
                         </div>
@@ -162,21 +163,21 @@ export default function PodcastsPage() {
                 </section>
 
                 {/* Subscription CTA remains the same */}
-                <section className="relative overflow-hidden border-t border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 py-10 px-6">
+                <section className="relative overflow-hidden border-t border-neutral-800 bg-neutral-950 py-10 px-6">
                     {/* Background Image */}
                     <div className="absolute inset-0 z-0">
                         <img 
                             src="/jolt-full.webp" 
                             alt="Subscription Background" 
-                            className="w-full h-full object-cover opacity-30 dark:opacity-20"
+                            className="w-full h-full object-cover opacity-20"
                         />
                         {/* Radial Gradient to focus attention on the center text */}
-                        <div className="absolute inset-0 bg-gradient-to-b from-white/80 via-transparent to-white/80 dark:from-neutral-950/80 dark:via-transparent dark:to-neutral-950/80" />
+                        <div className="absolute inset-0 bg-gradient-to-b from-neutral-700/40 via-transparent to-neutral-700/40 dark:from-neutral-950/80 dark:via-transparent dark:to-neutral-950/80" />
                     </div>
 
                     {/* Technical Square Grid Overlay */}
                     <div 
-                        className="absolute inset-0 opacity-[0.05] dark:opacity-[0.1] z-5" 
+                        className="absolute inset-0 opacity-[0.1] z-5" 
                         style={{ 
                             backgroundImage: `linear-gradient(to right, #888 1px, transparent 1px), linear-gradient(to bottom, #888 1px, transparent 1px)`, 
                             backgroundSize: '24px 24px' 
@@ -186,11 +187,11 @@ export default function PodcastsPage() {
                     <div className="max-w-7xl mx-auto relative z-10 flex flex-col items-center text-center">
                         <Mic2 size={32} className="text-db-lime mb-6 opacity-80" />
                         
-                        <h2 className="text-3xl md:text-4xl font-black italic uppercase tracking-tighter text-neutral-900 dark:text-white mb-4">
+                        <h2 className="text-3xl md:text-4xl font-black italic uppercase tracking-tighter text-white mb-4">
                             Never miss an episode
                         </h2>
                         
-                        <p className="max-w-md text-sm text-neutral-600 dark:text-neutral-400 mb-10 uppercase font-bold tracking-tight">
+                        <p className="max-w-md text-sm text-neutral-400 mb-10 uppercase font-bold tracking-tight">
                             Subscribe to your favorite series for weekly racing insights.
                         </p>
 
@@ -198,7 +199,7 @@ export default function PodcastsPage() {
                             {['Apple Podcasts', 'Spotify', 'RSS Feed'].map((plat) => (
                                 <button 
                                     key={plat} 
-                                    className="bg-white/50 dark:bg-neutral-100/20 backdrop-blur-sm text-[11px] font-black uppercase border border-neutral-200 dark:border-neutral-800 px-8 py-3 hover:border-neutral-400 hover:text-neutral-600 dark:hover:border-db-lime dark:hover:text-db-lime transition-all cursor-pointer"
+                                    className="bg-db-lime/100 hover:bg-db-lime/80 backdrop-blur-sm text-[12px] text-neutral-900 font-semibold uppercase px-6 py-2 text-neutral-200 transition-all cursor-pointer"
                                 >
                                     {plat}
                                 </button>

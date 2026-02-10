@@ -137,34 +137,29 @@ export default function AboutUs() {
             />
 
             <main className="flex-grow">
-                {/* Compact Hero */}
-                <div className="relative overflow-hidden bg-white dark:bg-neutral-950 border-b border-neutral-200 dark:border-neutral-800 h-[300px] flex items-center">
-                    {/* Background Image - Positioned to keep left side clear */}
+                {/* Hero Section */}
+                <div className="relative overflow-hidden bg-neutral-900 dark:bg-neutral-950 border-b border-neutral-200 dark:border-neutral-800 h-[250px] flex items-center">
                     <div className="absolute inset-0 z-0">
                         <img 
                             src="/Jolt4.avif" 
                             alt="Background" 
-                            className="w-full h-full object-cover object-left opacity-60 dark:opacity-40"
+                            className="w-full h-full object-cover object-left opacity-70 dark:opacity-40"
                         />
-                        {/* Gradient: Blends from transparent (left) to solid (right) to protect text */}
-                        <div className="absolute inset-0 bg-gradient-to-l from-white via-white/60 to-transparent dark:from-neutral-950 dark:via-neutral-950/60 dark:to-transparent" />
+                        <div className="absolute inset-0 bg-gradient-to-l from-neutral-900/70 via-neutral-900/40 to-transparent dark:from-neutral-950 dark:via-neutral-950/60 dark:to-transparent" />
                     </div>
-
-                    {/* Technical Grid Overlay */}
+                    
                     <div className="absolute inset-0 opacity-[0.05] dark:opacity-[0.08] z-5" style={{ backgroundImage: `linear-gradient(to right, #888 1px, transparent 1px), linear-gradient(to bottom, #888 1px, transparent 1px)`, backgroundSize: '20px 20px' }} />
                     
                     <div className="max-w-7xl mx-auto px-6 w-full relative z-10">
-                        <div className="max-w-xl ml-auto"> {/* Pushed to the right to reveal the left side of the image */}
+                        <div className="max-w-xl ml-auto">
                             <div className="flex items-center gap-2 mb-2">
-                                <span className="h-[2px] w-4 bg-neutral-500 dark:bg-db-lime" />
-                                <span className="text-[10px] font-black uppercase tracking-tight text-neutral-500 dark:text-db-lime italic">Built by fans, for fans.</span>
+                                <span className="h-[2px] w-4 bg-db-lime" />
+                                <span className="text-[10px] font-black uppercase tracking-tight text-db-lime italic">Built by fans, for fans</span>
                             </div>
-                            
-                            <h1 className="text-2xl md:text-3xl font-black tracking-tighter uppercase italic text-neutral-900 dark:text-white mb-3">
+                            <h1 className="text-2xl md:text-3xl font-black tracking-tighter uppercase italic text-white mb-3">
                                 About Us
                             </h1>
-                            
-                            <div className="space-y-3 text-xs md:text-sm font-medium leading-[1.2] text-neutral-600 dark:text-neutral-400">
+                            <div className="space-y-3 text-xs md:text-sm font-medium leading-[1.2] text-neutral-200 dark:text-neutral-400">
                                 <p>DIVEBOMB is an exciting and leading voice in worldwide motorsport journalism. We are creatives, analysts, and storytellers dedicated to producing the very best coverage of the racing world.</p>
                                 <p>From the paddocks to the podiums, we are your destination for all things motorsport news.</p>
                             </div>

@@ -38,26 +38,30 @@ export default function PartnersPage() {
             <DBHeader theme={theme} setTheme={setTheme} />
 
             <main className="flex-grow">
+                
                 {/* Hero Section */}
-                <div className="relative overflow-hidden bg-white dark:bg-neutral-950 border-b border-neutral-200 dark:border-neutral-800 h-[260px] flex items-center">
+                <div className="relative overflow-hidden bg-neutral-900 dark:bg-neutral-950 border-b border-neutral-200 dark:border-neutral-800 h-[250px] flex items-center">
                     <div className="absolute inset-0 z-0">
-                        <img src="/Jolt4.avif" alt="Background" className="w-full h-full object-cover object-left opacity-60 dark:opacity-40" />
-                        <div className="absolute inset-0 bg-gradient-to-l from-white via-white/60 to-transparent dark:from-neutral-950 dark:via-neutral-950/60 dark:to-transparent" />
+                        <img 
+                            src="/Jolt4.avif" 
+                            alt="Background" 
+                            className="w-full h-full object-cover object-left opacity-70 dark:opacity-40"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-l from-neutral-900/70 via-neutral-900/40 to-transparent dark:from-neutral-950 dark:via-neutral-950/60 dark:to-transparent" />
                     </div>
+                    
                     <div className="absolute inset-0 opacity-[0.05] dark:opacity-[0.08] z-5" style={{ backgroundImage: `linear-gradient(to right, #888 1px, transparent 1px), linear-gradient(to bottom, #888 1px, transparent 1px)`, backgroundSize: '20px 20px' }} />
                     
                     <div className="max-w-7xl mx-auto px-6 w-full relative z-10">
-                        <div className="max-w-xl ml-auto"> {/* Pushed to the right to reveal the left side of the image */}
+                        <div className="max-w-xl ml-auto">
                             <div className="flex items-center gap-2 mb-2">
-                                <span className="h-[2px] w-4 bg-neutral-500 dark:bg-db-lime" />
-                                <span className="text-[10px] font-black uppercase tracking-tight text-neutral-500 dark:text-db-lime italic">Our Network</span>
+                                <span className="h-[2px] w-4 bg-db-lime" />
+                                <span className="text-[10px] font-black uppercase tracking-tight text-db-lime italic">Our Network</span>
                             </div>
-                            
-                            <h1 className="text-2xl md:text-3xl font-black tracking-tighter uppercase italic text-neutral-900 dark:text-white mb-3">
+                            <h1 className="text-2xl md:text-3xl font-black tracking-tighter uppercase italic text-white mb-3">
                                 Partners
                             </h1>
-                            
-                            <div className="space-y-3 text-xs md:text-sm font-medium leading-[1.2] text-neutral-600 dark:text-neutral-400">
+                            <div className="space-y-3 text-xs md:text-sm font-medium leading-[1.2] text-neutral-200 dark:text-neutral-400">
                                 <p>Every year, DIVEBOMB partners with names in the motorsport world from various backgrounds to develop relations and increase awareness.</p>
                                 <p>If you would like to discuss partnership possibilities, please fill in the Partnership Contact Form at the bottom of this page.</p>
                             </div>

@@ -104,7 +104,7 @@ export default function DivebombGlassPortal() {
     return (
         <div className="min-h-screen bg-background text-neutral-900 dark:text-neutral-100 font-sans selection:bg-db-lime selection:text-black relative transition-colors duration-300">
             <div 
-                className="absolute inset-0 pointer-events-none opacity-[0.07] dark:opacity-[0.07] z-0"
+                className="absolute inset-0 pointer-events-none opacity-[0.09] dark:opacity-[0.04] z-0"
                 style={{
                     backgroundImage: `linear-gradient(to right, #888 1px, transparent 1px), linear-gradient(to bottom, #888 1px, transparent 1px)`,
                     backgroundSize: '20px 20px',
@@ -161,9 +161,15 @@ export default function DivebombGlassPortal() {
                                             <p className="text-[14px] font-semibold leading-tight text-neutral-700 dark:text-neutral-300 group-hover:text-[#87AF00] dark:group-hover:text-db-lime transition-colors line-clamp-2">
                                                 {article.title}
                                             </p>
-                                            <span className="text-[10px] font-bold text-neutral-400 dark:text-neutral-500 uppercase block">
-                                                {formatDate(article.cleanDate)}
-                                            </span>
+                                            <div className="flex items-center gap-2 text-[10px] font-bold uppercase">
+                                                <span className="text-neutral-400 dark:text-neutral-500">
+                                                    {article.author}
+                                                </span>
+                                                <span className="text-neutral-300 dark:text-neutral-600">//</span>
+                                                <span className="text-neutral-400 dark:text-neutral-500">
+                                                    {formatDate(article.cleanDate)}
+                                                </span>
+                                            </div>
                                         </div>
                                     </a>
                                 ))}
@@ -198,7 +204,7 @@ export default function DivebombGlassPortal() {
                                                 <h3 className="text-[14px] font-bold leading-tight text-neutral-900 dark:text-white group-hover/card:text-[#87AF00] dark:group-hover/card:text-db-lime line-clamp-2 transition-colors">{catArticles[0].title}</h3>
                                                 <div className="flex items-center gap-2 text-[10px] font-bold uppercase text-neutral-500">
                                                     <Link href={`/author/${getSlug(catArticles[0].author)}`} className="hover:text-neutral-900 dark:hover:text-white relative z-30 transition-colors">{catArticles[0].author}</Link>
-                                                    <span className="text-neutral-300 dark:text-neutral-800">//</span>
+                                                    <span className="text-neutral-300 dark:text-neutral-600">//</span>
                                                     <span>{formatDate(catArticles[0].cleanDate)}</span>
                                                 </div>
                                             </div>
@@ -210,7 +216,7 @@ export default function DivebombGlassPortal() {
                                                     <h4 className="text-[14px] font-bold text-neutral-700 dark:text-neutral-300 group-hover/list:text-[#87AF00] dark:group-hover/list:text-db-lime leading-tight line-clamp-2 mb-1.5">{article.title}</h4>
                                                     <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-normal">
                                                         <Link href={`/author/${getSlug(article.author)}`} className="text-neutral-500 hover:underline relative z-30 transition-colors">{article.author}</Link>
-                                                        <span className="text-neutral-300 dark:text-neutral-700">•</span>
+                                                        <span className="text-neutral-300 dark:text-neutral-600">//</span>
                                                         <span className="text-neutral-400 dark:text-neutral-500">{formatDate(article.cleanDate)}</span>
                                                     </div>
                                                 </div>
