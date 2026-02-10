@@ -40,6 +40,14 @@ export default function AuthorClient({ author }: { author: Author }) {
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     
+    const ARTICLES_PER_PAGE = 6; // Set the number of articles to display per load
+    const [visibleCount, setVisibleCount] = useState(ARTICLES_PER_PAGE);
+
+    // Reset visible count whenever search or category changes
+    useEffect(() => {
+        setVisibleCount(ARTICLES_PER_PAGE);
+    }, [searchQuery, selectedCategories]);
+
     const bioRef = useRef<HTMLParagraphElement>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -58,11 +66,43 @@ export default function AuthorClient({ author }: { author: Author }) {
     }, [authorArticles]);
 
     const filteredArticles = useMemo(() => {
-        return authorArticles.filter(art => {
-            const matchesSearch = art.title.toLowerCase().includes(searchQuery.toLowerCase());
-            const matchesCat = selectedCategories.length === 0 || (art.mainCategory && selectedCategories.includes(art.mainCategory));
+        // Refined fuzzy search logic
+        const isFuzzyMatch = (query: string, itemTitle: string) => {
+            const search = query.toLowerCase().replace(/\s/g, ''); // Remove spaces from search
+            const target = itemTitle.toLowerCase();
+            
+            let searchIndex = 0;
+            for (let i = 0; i < target.length; i++) {
+                if (target[i] === search[searchIndex]) {
+                    searchIndex++;
+                }
+                if (searchIndex === search.length) return true;
+            }
+            return searchIndex === search.length;
+        };
+
+        const results = authorArticles.filter(art => {
+            // 1. Check if search query is empty
+            if (!searchQuery.trim()) {
+                const matchesCat = selectedCategories.length === 0 || 
+                    (art.mainCategory && selectedCategories.includes(art.mainCategory));
+                return matchesCat;
+            }
+
+            // 2. Perform fuzzy match
+            const matchesSearch = isFuzzyMatch(searchQuery, art.title);
+            
+            // 3. Category filter
+            const matchesCat = selectedCategories.length === 0 || 
+                (art.mainCategory && selectedCategories.includes(art.mainCategory));
+                
             return matchesSearch && matchesCat;
         });
+
+        // Helpful for debugging: remove this once you see it working in the console
+        console.log(`Search: "${searchQuery}" | Results: ${results.length}`);
+        
+        return results;
     }, [authorArticles, searchQuery, selectedCategories]);
 
     const toggleCategory = (cat: string) => {
@@ -124,7 +164,19 @@ export default function AuthorClient({ author }: { author: Author }) {
             <main className="flex-grow">
                 {/* Hero Section */}
                 <div className="relative overflow-hidden border-b border-neutral-200 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-950">
-                    <div className="absolute inset-0 pointer-events-none opacity-[0.05] dark:opacity-[0.08] z-0" style={{ backgroundImage: `linear-gradient(to right, #888 1px, transparent 1px), linear-gradient(to bottom, #888 1px, transparent 1px)`, backgroundSize: '32px 32px' }} />
+                    {/* The Grid Background */}
+                    <div 
+                        className="absolute inset-0 pointer-events-none opacity-[0.05] dark:opacity-[0.08] z-0" 
+                        style={{ 
+                            backgroundImage: `linear-gradient(to right, #888 1px, transparent 1px), linear-gradient(to bottom, #888 1px, transparent 1px)`, 
+                            backgroundSize: '32px 32px' 
+                        }} 
+                    />
+
+                    {/* Radial "Spotlight" Gradients - These were missing from your top snippet */}
+                    <div className="absolute top-0 right-0 w-1/2 h-full bg-db-lime/10 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/4 z-0" />
+                    <div className="absolute bottom-0 left-0 w-1/3 h-full bg-neutral-200 dark:bg-db-lime/5 blur-[100px] z-0" />
+
                     <div className="max-w-6xl mx-auto px-6 py-10 relative z-10">
                         <div className="flex flex-col md:flex-row gap-12 items-center md:items-start">
                             <div className="relative group">
@@ -136,10 +188,10 @@ export default function AuthorClient({ author }: { author: Author }) {
 
                             <div className="flex-1 space-y-6 my-4 text-center md:text-left">
                                 <div className="space-y-0">
-                                    <h1 className="text-xl md:text-3xl font-black tracking-tighter uppercase italic dark:text-white leading-none">{author.name}</h1>
+                                    <h1 className="text-xl md:text-3xl font-black tracking-tighter uppercase dark:text-white leading-none">{author.name}</h1>
                                     <div className="inline-flex items-center gap-2">
                                         <span className="h-[1px] w-8 bg-neutral-500 dark:bg-db-lime" />
-                                        <span className="text-sm font-black uppercase text-neutral-500 dark:text-db-lime">{author.role.join(", ")}</span>
+                                        <span className="text-sm font-black uppercase text-neutral-500 italic dark:text-db-lime">{author.role.join(", ")}</span>
                                     </div>
                                 </div>
 
@@ -158,7 +210,7 @@ export default function AuthorClient({ author }: { author: Author }) {
                                 </div>
 
                                 <div className="relative">
-                                    <p ref={bioRef} className={`text-lg md:text-[15px] font-regular leading-snug text-neutral-600 dark:text-neutral-400 max-w-full transition-all duration-300 ${!isExpanded ? 'line-clamp-3' : ''}`}>{author.bio}</p>
+                                    <p ref={bioRef} className={`text-lg md:text-[15px] font-regular leading-snug text-neutral-600 dark:text-neutral-300 max-w-full transition-all duration-300 ${!isExpanded ? 'line-clamp-3' : ''}`}>{author.bio}</p>
                                     {(isOverflowing || isExpanded) && (
                                         <button onClick={() => setIsExpanded(!isExpanded)} className="mt-2 text-[10px] font-black uppercase text-db-lime hover:text-neutral-900 dark:hover:text-white transition-colors flex items-center gap-1 mx-auto md:mx-0 cursor-pointer">
                                             {isExpanded ? <>Read Less <ChevronUp size={12} /></> : <>Read More <ChevronDown size={12} /></>}
@@ -177,7 +229,7 @@ export default function AuthorClient({ author }: { author: Author }) {
                             <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-8 border-b border-neutral-200 dark:border-neutral-800 pb-6 gap-6">
                                 <div className="space-y-1">
                                     <h2 className="text-xl font-black uppercase italic tracking-tight dark:text-white leading-tight">Latest Articles by {author.name}</h2>
-                                    <span className="block text-sm font-medium text-neutral-400 leading-normal">Showing {filteredArticles.length} of {authorArticles.length} articles</span>
+                                    <span className="block text-sm font-medium text-neutral-400 leading-normal">Showing {Math.min(visibleCount, filteredArticles.length)} of {filteredArticles.length} articles</span>
                                 </div>
 
                                 <div className="flex flex-col sm:flex-row items-center gap-3">
@@ -215,26 +267,43 @@ export default function AuthorClient({ author }: { author: Author }) {
                             </div>
 
                             {filteredArticles.length > 0 ? (
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
-                                    {filteredArticles.map((article, i) => (
-                                        <a key={i} href={article.link} target="_blank" rel="noopener noreferrer" className="group block space-y-4">
-                                            <div className="relative aspect-video w-full overflow-hidden bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700">
-                                                <img src={article.displayImage} alt={article.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
-                                            </div>
-                                            <div className="space-y-2">
-                                                <div className="flex items-center gap-2">
-                                                    <span className="text-[10px] font-black uppercase px-1.5 py-0.5 bg-db-lime text-black italic">{article.mainCategory}</span>
-                                                    <span className="text-[10px] font-bold text-neutral-400 uppercase">{article.cleanDate}</span>
+                                <>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+                                        {filteredArticles.slice(0, visibleCount).map((article, i) => (
+                                            <a key={i} href={article.link} target="_blank" rel="noopener noreferrer" className="group block space-y-4">
+                                                <div className="relative aspect-video w-full overflow-hidden bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700">
+                                                    <img src={article.displayImage} alt={article.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
                                                 </div>
-                                                <h3 className="text-base font-semibold leading-tight dark:text-white group-hover:text-db-lime transition-colors line-clamp-3">{article.title}</h3>
-                                            </div>
-                                        </a>
-                                    ))}
-                                </div>
+                                                <div className="space-y-2">
+                                                    <div className="flex items-center gap-2">
+                                                        <span className="text-[10px] font-black uppercase px-1.5 py-0.5 bg-db-lime text-black italic">{article.mainCategory}</span>
+                                                        <span className="text-[10px] font-bold text-neutral-400 uppercase">{article.cleanDate}</span>
+                                                    </div>
+                                                    <h3 className="text-base font-semibold leading-tight dark:text-white group-hover:text-db-lime transition-colors line-clamp-3">{article.title}</h3>
+                                                </div>
+                                            </a>
+                                        ))}
+                                    </div>
+
+                                    {filteredArticles.length > visibleCount && (
+                                        <div className="mt-8 flex justify-center">
+                                            <button 
+                                                onClick={() => setVisibleCount(prev => prev + ARTICLES_PER_PAGE)}
+                                                className="group flex items-center gap-2 text-[11px] font-semibold uppercase tracking-regular text-neutral-500 dark:text-neutral-400 hover:text-[#87AF00] dark:hover:text-db-lime transition-colors cursor-pointer"
+                                            >
+                                                <span className="relative">
+                                                    Load More Articles
+                                                    <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-db-lime transition-all duration-300 group-hover:w-full" />
+                                                </span>
+                                                <ChevronDown size={14} className="group-hover:translate-y-0.5 transition-transform" />
+                                            </button>
+                                        </div>
+                                    )}
+                                </>
                             ) : (
                                 <div className="py-24 text-center">
                                     <h3 className="text-lg font-bold dark:text-white">No articles found matching your criteria.</h3>
-                                    <button onClick={resetFilters} className="mt-4 px-6 py-2.5 bg-neutral-900 dark:bg-db-lime text-white dark:text-black text-xs font-bold uppercase rounded-full cursor-pointer">Reset Filters</button>
+                                    <button onClick={resetFilters} className="mt-4 px-6 py-2.5 bg-db-lime hover:bg-db-lime/85 text-black text-xs font-bold uppercase cursor-pointer rounded-sm">Reset Filters</button>
                                 </div>
                             )}
                         </>

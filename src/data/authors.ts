@@ -11,7 +11,7 @@ export interface Author {
   website?: string;   // Optional
   tiktok?: string;     // Optional
   linkedin?: string;   // Optional
-  email: string;
+  email?: string;
   stats: {
     articles: number;
   };
@@ -65,5 +65,37 @@ export const authors: Record<string, Author> = {
     email: "archie.oreilly@divebomb.com",
     stats: { articles: 201 },
     bio: "Writer predominantly covering IndyCar and part of the DIVEBOMB IndyCar Podcast."
+  },
+  "mia-wallace": {
+    slug: "mia-wallace",
+    name: "Mia Wallace",
+    role: ["Writer"],
+    image: "/author-images/mia-wallace.avif",
+    stats: { articles: 201 },
+    instagram: "https://www.instagram.com/miagabriellew/",
+    tiktok: "https://www.tiktok.com/@tracksidewithmimi",
+    bio: "Avid sports journalist with a focus on Formula 1. I love looking into the off-track things that alter on-track performance and influences driver personality, whether that be fashion, history, or brand partnerships."
+  },
+  "evan-roberts": {
+    slug: "evan-roberts",
+    name: "Evan Roberts",
+    role: ["Writer"],
+    image: "/author-images/evan-roberts.avif",
+    stats: { articles: 201 },
+  },
+  "divebomb-motorsport": {
+    slug: "divebomb-motorsport",
+    name: "DIVEBOMB Motorsport",
+    role: ["Editorial Team"],
+    image: "/db-profile.png",
+    stats: { articles: 201 },
+    bio: "Articles written by the collective efforts of the DIVEBOMB editorial team. These articles may include collaborative pieces, press releases, or content that doesn't fit the profile of a single author but still provides valuable insights and information to our readers."
+  },
+  "morgan-holiday": {
+    slug: "morgan-holiday",
+    name: "Morgan Holiday",
+    role: ["Head of Editorial & Feeder Series"],
+    image: "/author-images/morgan-holiday.jpg",
+    stats: { articles: 201 },
   },
 };

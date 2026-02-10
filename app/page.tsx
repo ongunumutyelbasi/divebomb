@@ -142,16 +142,29 @@ export default function DivebombGlassPortal() {
                                 </p>
                             </div>
                         </div>
-                        <aside className="lg:col-span-4 p-6">
-                            <div className="flex items-center gap-2 mb-4">
+                        <aside className="lg:col-span-4 flex flex-col h-full border-neutral-200 dark:border-neutral-800">
+                            <div className="flex items-center gap-2 px-6 py-3 shrink-0">
                                 <Newspaper size={14} className="text-[#87AF00] dark:text-db-lime" />
                                 <h4 className="text-[11px] text-[#87AF00] dark:text-db-lime font-black uppercase">Latest News</h4>
                             </div>
-                            <div className="divide-y divide-neutral-200 dark:divide-neutral-800/60">
+                            
+                            <div className="flex-grow grid grid-rows-6">
                                 {latestNews.map((article, i) => (
-                                    <a key={i} href={article.link} target="_blank" rel="noopener noreferrer" className="group block py-3 first:pt-0 last:pb-0">
-                                        <p className="text-[14px] font-semibold leading-snug text-neutral-700 dark:text-neutral-300 group-hover:text-[#87AF00] dark:group-hover:text-db-lime transition-colors line-clamp-2">{article.title}</p>
-                                        <span className="text-[10px] font-bold text-neutral-400 dark:text-neutral-500 uppercase mt-1 block">{formatDate(article.cleanDate)}</span>
+                                    <a 
+                                        key={i} 
+                                        href={article.link} 
+                                        target="_blank" 
+                                        rel="noopener noreferrer" 
+                                        className="group flex flex-col justify-center px-6 border-t border-neutral-200 dark:border-neutral-800/60 transition-colors"
+                                    >
+                                        <div className="space-y-1">
+                                            <p className="text-[14px] font-semibold leading-tight text-neutral-700 dark:text-neutral-300 group-hover:text-[#87AF00] dark:group-hover:text-db-lime transition-colors line-clamp-2">
+                                                {article.title}
+                                            </p>
+                                            <span className="text-[10px] font-bold text-neutral-400 dark:text-neutral-500 uppercase block">
+                                                {formatDate(article.cleanDate)}
+                                            </span>
+                                        </div>
                                     </a>
                                 ))}
                             </div>
