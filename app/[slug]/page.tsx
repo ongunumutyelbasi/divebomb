@@ -15,6 +15,24 @@ const SITE_LINKS = [
     { name: 'Partners', href: '/partners' }
 ];
 
+export async function generateStaticParams() {
+  const categories = [
+    'all-articles',
+    'formula-1',
+    'indycar',
+    'formula-e',
+    'feeder-series',
+    'wrc',
+    'motogp',
+    'nascar',
+    'supercars'
+  ];
+
+  return categories.map((cat) => ({
+    slug: cat,
+  }));
+}
+
 export default function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
     const [theme, setTheme] = useState<'dark' | 'light'>('dark');
     const [mounted, setMounted] = useState(false);
