@@ -6,6 +6,8 @@ import DBFooter from '@/components/DBFooter';
 import Link from 'next/link';
 import { Newspaper, X } from 'lucide-react';
 
+const BASE_PATH = '/divebomb';
+
 const CATEGORIES = ['All Articles', 'Live Coverage', 'Formula 1', 'IndyCar', 'Formula E', 'Feeder Series', 'WRC', 'MotoGP', 'NASCAR', 'Supercars'];
 const SITE_LINKS = [
     { name: 'Home', href: '/' },

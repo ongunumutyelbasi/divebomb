@@ -5,6 +5,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Search, Sun, Moon, X, ExternalLink, ChevronRight, Radio } from 'lucide-react';
 import Link from 'next/link';
 
+const BASE_PATH = '/divebomb';
+
 const CheckeredSquare = ({ className }: { className?: string }) => (
     <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" className={`${className} text-black dark:text-white`}>
         <rect x="0" y="0" width="8" height="8" /><rect x="16" y="0" width="8" height="8" />
@@ -122,7 +124,7 @@ export default function DBHeader({ theme, setTheme, showProgress = false, visual
                             {/* Added double-click to toggle live for easy testing */}
                             <div onDoubleClick={() => setIsLiveActive(!isLiveActive)} className="shrink-0 cursor-pointer">
                                 <Link href="/">
-                                    <img src={theme === 'dark' ? "/db-white-logo.svg" : "/db-black-logo.svg"} alt="DIVEBOMB" className="h-3.5 w-auto" />
+                                    <img src={theme === 'dark' ? `${BASE_PATH}/db-white-logo.svg` : `${BASE_PATH}/db-black-logo.svg`} alt="DIVEBOMB" className="h-3.5 w-auto" />
                                 </Link>
                             </div>
                             <nav className="hidden lg:flex items-center gap-4">
@@ -192,7 +194,7 @@ export default function DBHeader({ theme, setTheme, showProgress = false, visual
             )}
             <div className={`fixed top-0 right-0 h-full w-full max-w-xs bg-white dark:bg-neutral-950 border-l border-neutral-200 dark:border-neutral-800 z-[130] p-8 transition-transform duration-300 ease-in-out transform ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
                 <div className="flex justify-between items-center mb-12">
-                    <img src={theme === 'dark' ? "/db-white-logo.svg" : "/db-black-logo.svg"} alt="Logo" className="h-4" />
+                    <img src={theme === 'dark' ? `${BASE_PATH}/db-white-logo.svg` : `${BASE_PATH}/db-black-logo.svg`} alt="Logo" className="h-4" />
                     <button onClick={() => setIsMenuOpen(false)} className="text-neutral-500 hover:text-neutral-900 dark:hover:text-white cursor-pointer"><X size={24} /></button>
                 </div>
                 <nav className="flex flex-col gap-4">
