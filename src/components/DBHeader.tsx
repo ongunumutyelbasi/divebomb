@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Search, Sun, Moon, X, ExternalLink, ChevronRight, Radio } from 'lucide-react';
+import { Search, Sun, Moon, X, ExternalLink, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 
 const CheckeredSquare = ({ className }: { className?: string }) => (
@@ -63,7 +63,6 @@ export default function DBHeader({ theme, setTheme, showProgress = false, visual
         const handleClickOutside = (e: MouseEvent) => {
             if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
                 setIsSearchOpen(false);
-                setSearchQuery("");
             }
         };
         if (isSearchOpen) {
@@ -104,20 +103,21 @@ export default function DBHeader({ theme, setTheme, showProgress = false, visual
                     </div>
                 )}
 
-                <header className="bg-background/80 backdrop-blur-md border-b border-neutral-200 dark:border-neutral-800 h-12 relative">
+                <header className="bg-background/80 backdrop-blur-md border-b border-neutral-200 dark:border-neutral-800 h-12 relative overflow-visible">
                     <div className="max-w-7xl mx-auto px-4 h-full flex items-center justify-between">
-                        <div className="flex items-center gap-8">
+                        <div className="flex items-center gap-8 flex-grow">
                             <div onDoubleClick={() => setIsLiveActive(!isLiveActive)} className="shrink-0 cursor-pointer">
                                 <Link href="/">
                                     <img src={theme === 'dark' ? `/db-white-logo.svg` : `/db-black-logo.svg`} alt="DIVEBOMB" className="h-3.5 w-auto" />
                                 </Link>
                             </div>
+                            
                             <nav className="hidden lg:flex items-center gap-4">
                                 {CATEGORIES.map(cat => (
                                     <Link 
                                         key={cat} 
                                         href={`/${getSlug(cat)}`} 
-                                        className="text-[12px] font-medium uppercase text-neutral-500 hover:text-db-lime transition-colors cursor-pointer"
+                                        className="text-[12px] font-medium uppercase text-neutral-500 hover:text-db-lime transition-colors cursor-pointer whitespace-nowrap"
                                     >
                                         {cat}
                                     </Link>
@@ -125,11 +125,47 @@ export default function DBHeader({ theme, setTheme, showProgress = false, visual
                             </nav>
                         </div>
 
-                        <div className="flex items-center gap-2">
-                            <button onClick={() => setIsSearchOpen(true)} className="p-2 text-neutral-500 hover:text-db-lime transition-colors cursor-pointer shrink-0">
-                                <Search size={18} />
-                            </button>
+                        <div className="flex items-center gap-1 h-full relative">
+                            {/* SEARCH GROUP - Anchor point set to exactly where the search icon starts */}
+                            <div className="relative flex items-center h-full w-9" ref={searchRef}>
+                                <div 
+                                    className={`absolute right-0 top-1/2 -translate-y-1/2 h-9 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-md flex items-center transition-all duration-300 ease-out z-[110] overflow-hidden ${
+                                        isSearchOpen 
+                                        ? 'w-[320px] md:w-[450px] opacity-100 pointer-events-auto' 
+                                        : 'w-0 opacity-0 pointer-events-none border-transparent'
+                                    }`}
+                                >
+                                    <div className="flex items-center w-full px-3">
+                                        <Search size={16} className="text-db-lime shrink-0 mr-3" />
+                                        <input 
+                                            ref={inputRef}
+                                            type="text" 
+                                            value={searchQuery} 
+                                            onChange={(e) => setSearchQuery(e.target.value)}
+                                            placeholder="Search articles..." 
+                                            className="bg-transparent border-none outline-none text-[12px] font-medium tracking-tight w-full text-neutral-900 dark:text-white"
+                                        />
+                                        <button 
+                                            onClick={() => setIsSearchOpen(false)}
+                                            className="p-1 text-neutral-500 hover:text-db-lime transition-colors cursor-pointer shrink-0 ml-2"
+                                        >
+                                            <X size={18} />
+                                        </button>
+                                    </div>
+                                </div>
 
+                                {/* SEARCH TRIGGER BUTTON */}
+                                {!isSearchOpen && (
+                                    <button 
+                                        onClick={() => setIsSearchOpen(true)} 
+                                        className="p-2 text-neutral-500 hover:text-db-lime transition-colors cursor-pointer flex items-center justify-center w-9 h-9 relative z-[105]"
+                                    >
+                                        <Search size={18} />
+                                    </button>
+                                )}
+                            </div>
+
+                            {/* REMAINING BUTTONS - These are now physically shielded from the search container */}
                             <button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} className="p-2 text-neutral-500 hover:text-db-lime transition-colors cursor-pointer shrink-0">
                                 {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
                             </button>
@@ -138,30 +174,6 @@ export default function DBHeader({ theme, setTheme, showProgress = false, visual
                                 <div className="h-0.5 w-6 bg-neutral-900 dark:bg-neutral-200 group-hover:bg-db-lime group-hover:w-4 transition-all duration-300" />
                                 <div className="h-0.5 w-4 bg-neutral-600 dark:bg-neutral-400 group-hover:bg-db-lime group-hover:w-6 transition-all duration-300" />
                                 <div className="h-0.5 w-5 bg-neutral-400 dark:bg-neutral-600 group-hover:bg-db-lime group-hover:w-3 transition-all duration-300" />
-                            </button>
-                        </div>
-                    </div>
-
-                    {/* OVERLAY SEARCH BAR - Poses zero threat to layout links */}
-                    <div 
-                        ref={searchRef}
-                        className={`absolute inset-0 z-[110] bg-white dark:bg-db-black transition-all duration-300 ease-in-out flex items-center px-4 ${isSearchOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
-                    >
-                        <div className="max-w-7xl mx-auto w-full flex items-center gap-4">
-                            <Search size={20} className="text-db-lime shrink-0" />
-                            <input 
-                                ref={inputRef}
-                                type="text" 
-                                value={searchQuery} 
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                placeholder="SEARCH ARTICLES, SERIES, DRIVERS..." 
-                                className="bg-transparent border-none outline-none text-lg font-bold tracking-tight w-full text-neutral-900 dark:text-white uppercase italic"
-                            />
-                            <button 
-                                onClick={() => { setIsSearchOpen(false); setSearchQuery(""); }} 
-                                className="p-2 text-neutral-500 hover:text-neutral-900 dark:hover:text-white transition-colors cursor-pointer"
-                            >
-                                <X size={24} />
                             </button>
                         </div>
                     </div>
