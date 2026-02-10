@@ -117,7 +117,7 @@ export default function DBHeader({ theme, setTheme, showProgress = false, visual
                                     <Link 
                                         key={cat} 
                                         href={`/${getSlug(cat)}`} 
-                                        className="text-[12px] font-medium uppercase text-neutral-500 hover:text-db-lime transition-colors cursor-pointer whitespace-nowrap"
+                                        className="text-[12px] font-medium uppercase text-neutral-500 hover:text-[#87AF00] dark:hover:text-db-lime transition-colors cursor-pointer whitespace-nowrap"
                                     >
                                         {cat}
                                     </Link>

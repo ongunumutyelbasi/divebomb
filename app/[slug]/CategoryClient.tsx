@@ -87,7 +87,7 @@ export default function CategoryClient({ params }: { params: Promise<{ slug: str
                       <div className="max-w-xl mr-auto text-left">
                           <div className="flex items-center gap-2 mb-2">
                               <span className="h-[2px] w-4 bg-neutral-500 dark:bg-db-lime" />
-                              <span className="text-[10px] font-black uppercase tracking-tight text-neutral-500 dark:text-db-lime italic">Articles</span>
+                              <span className="text-[10px] font-black  tracking-tight text-neutral-500 dark:text-db-lime uppercase italic">Articles</span>
                           </div>
                           <h1 className="text-4xl md:text-5xl font-black tracking-tighter uppercase italic text-neutral-900 dark:text-white mb-3">{activeCategory}</h1>
                       </div>
@@ -102,16 +102,16 @@ export default function CategoryClient({ params }: { params: Promise<{ slug: str
                               <img src={featured?.displayImage} className="object-cover w-full h-full group-hover/article:scale-105 transition-transform duration-700" alt="Main story" />
                           </div>
                           <div className="flex flex-col gap-3">
-                              <div className="flex items-center gap-3 text-[10px] font-bold uppercase">
-                                  <Link href={`/${getSlug(featured?.categories?.[0])}`} className="text-db-lime hover:underline underline-offset-4 transition-all relative z-30">
+                              <div className="flex items-center gap-3 text-[10px] font-bold ">
+                                  <Link href={`/${getSlug(featured?.categories?.[0])}`} className="text-db-lime hover:underline underline-offset-4 transition-all relative z-30 uppercase">
                                       {featured?.categories?.[0]}
                                   </Link>
                                   <span className="text-neutral-400 dark:text-neutral-700">/</span>
-                                  <Link href={`/author/${getSlug(featured?.author)}`} className="text-neutral-900 dark:text-white hover:underline underline-offset-4 transition-all relative z-30">
+                                  <Link href={`/author/${getSlug(featured?.author)}`} className="text-neutral-900 dark:text-white hover:underline underline-offset-4 transition-all relative z-30 uppercase">
                                       {featured?.author}
                                   </Link>
                                   <span className="text-neutral-400 dark:text-neutral-700">/</span>
-                                  <span className="text-neutral-500">{featured?.cleanDate}</span>
+                                  <span className="text-neutral-500 uppercase">{featured?.cleanDate}</span>
                               </div>
                               <h1 className="text-3xl font-semibold leading-tight tracking-tighter text-neutral-900 dark:text-white group-hover/article:text-db-lime transition-colors line-clamp-2">{featured?.title}</h1>
                               <p className="text-sm text-neutral-600 dark:text-neutral-400 line-clamp-2 leading-relaxed">{featured?.description}</p>
@@ -125,7 +125,7 @@ export default function CategoryClient({ params }: { params: Promise<{ slug: str
                         <div className="divide-y divide-neutral-200 dark:divide-neutral-800/60">
                           {latestNews.map((article, i) => (
                             <a key={i} href={article.link} target="_blank" className="group block py-3 first:pt-0 last:pb-0">
-                              <p className="text-[14px] font-semibold leading-snug text-neutral-700 dark:text-neutral-300 group-hover:text-db-lime transition-colors line-clamp-2 uppercase">{article.title}</p>
+                              <p className="text-[14px] font-semibold leading-snug text-neutral-700 dark:text-neutral-300 group-hover:text-db-lime transition-colors line-clamp-2 ">{article.title}</p>
                               <span className="text-[10px] font-bold text-neutral-400 dark:text-neutral-500 uppercase mt-1 block">{article.cleanDate}</span>
                             </a>
                           ))}
@@ -135,18 +135,18 @@ export default function CategoryClient({ params }: { params: Promise<{ slug: str
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                         {[1, 2, 3, 4, 5, 6].map((i) => (
-                            <section key={i} className="border border-neutral-200 dark:border-neutral-800 bg-db-gray p-3 flex flex-col group relative">
+                            <section key={i} className="border border-neutral-200 dark:border-neutral-800 bg-background dark:bg-db-gray p-3 flex flex-col group relative">
                                 <a href="#" className="absolute inset-0 z-20" />
                                 <div className="aspect-[16/9] bg-black border border-neutral-200 dark:border-neutral-800 mb-3 overflow-hidden">
                                     <img src={`https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?q=80&w=800&auto=format&fit=crop&sig=${i}`} className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-500" alt="Grid" />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <div className="flex items-center gap-2 text-[8px] font-bold uppercase text-neutral-500">
-                                        <span className="text-db-lime">By Technical Editor</span>
+                                    <div className="flex items-center gap-2 text-[10px] font-bold  text-neutral-500">
+                                        <span className="text-db-lime uppercase">By Technical Editor</span>
                                         <span>/</span>
-                                        <span className="dark:text-neutral-500">Oct {12+i}, 2025</span>
+                                        <span className="dark:text-neutral-500 uppercase">Oct {12+i}, 2025</span>
                                     </div>
-                                    <h3 className="text-[14px] font-bold leading-tight text-neutral-900 dark:text-white group-hover:text-db-lime line-clamp-2 transition-colors uppercase tracking-tight">The impact of hybrid deployment on corner exit speeds</h3>
+                                    <h3 className="text-[16px] font-bold leading-tight text-neutral-900 dark:text-white group-hover:text-db-lime line-clamp-2 transition-colors  tracking-tight">The impact of hybrid deployment on corner exit speeds</h3>
                                 </div>
                             </section>
                         ))}
@@ -168,7 +168,7 @@ export default function CategoryClient({ params }: { params: Promise<{ slug: str
                 </div>
                 <nav className="flex flex-col gap-8">
                     {SITE_LINKS.map((link) => (
-                        <Link key={link.name} href={link.href} onClick={() => setIsMenuOpen(false)} className="text-2xl font-bold tracking-tighter text-neutral-900 dark:text-white hover:text-db-lime transition-colors uppercase italic">{link.name}</Link>
+                        <Link key={link.name} href={link.href} onClick={() => setIsMenuOpen(false)} className="text-2xl font-bold tracking-tighter text-neutral-900 dark:text-white hover:text-db-lime transition-colors italic">{link.name}</Link>
                     ))}
                 </nav>
             </div>
