@@ -35,11 +35,9 @@ export default function DBHeader({ theme, setTheme, showProgress = false, visual
     const searchRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
 
-    // Live Banner States
     const [isLiveActive, setIsLiveActive] = useState(false);
     const [showBanner, setShowBanner] = useState(true);
 
-    // Live Article Info
     const liveTitle = "24 Hours of Daytona 2026 - Live Updates";
     const liveLink = "/sportscars/live-imsa-24-hours-of-daytona";
 
@@ -52,7 +50,6 @@ export default function DBHeader({ theme, setTheme, showProgress = false, visual
 
     useEffect(() => {
         const handleKeyPress = (e: KeyboardEvent) => {
-            // Alt + L to toggle live mode
             if (e.key.toLowerCase() === 'l' && e.altKey) {
                 setIsLiveActive(prev => !prev);
                 setShowBanner(true);
@@ -64,7 +61,10 @@ export default function DBHeader({ theme, setTheme, showProgress = false, visual
 
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
-            if (searchRef.current && !searchRef.current.contains(e.target as Node)) setIsSearchOpen(false);
+            if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
+                setIsSearchOpen(false);
+                setSearchQuery("");
+            }
         };
         if (isSearchOpen) {
             document.addEventListener("mousedown", handleClickOutside);
@@ -83,7 +83,6 @@ export default function DBHeader({ theme, setTheme, showProgress = false, visual
 
     return (
         <>
-            {/* Wrap both in a sticky container so they scroll together */}
             <div className="sticky top-0 z-[100] w-full">
                 {isLiveActive && showBanner && (
                     <div className="bg-db-lime dark:bg-db-lime text-neutral-950 border-b border-white/10 dark:border-black/10">
@@ -101,24 +100,13 @@ export default function DBHeader({ theme, setTheme, showProgress = false, visual
                                 </p>
                                 <ChevronRight size={14} className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all shrink-0" />
                             </Link>
-
-                            {/* BANNER CLOSE BUTTON */}
-                            {/*
-                            <button 
-                                onClick={() => setShowBanner(false)}
-                                className="p-1.5 hover:bg-white/10 dark:hover:bg-black/10 rounded transition-colors ml-4"
-                            >
-                                <X size={14} />
-                            </button>
-                            */}
                         </div>
                     </div>
                 )}
 
-                <header className="bg-background/80 backdrop-blur-md border-b border-neutral-200 dark:border-neutral-800 h-12">
+                <header className="bg-background/80 backdrop-blur-md border-b border-neutral-200 dark:border-neutral-800 h-12 relative">
                     <div className="max-w-7xl mx-auto px-4 h-full flex items-center justify-between">
                         <div className="flex items-center gap-8">
-                            {/* Added double-click to toggle live for easy testing */}
                             <div onDoubleClick={() => setIsLiveActive(!isLiveActive)} className="shrink-0 cursor-pointer">
                                 <Link href="/">
                                     <img src={theme === 'dark' ? `/db-white-logo.svg` : `/db-black-logo.svg`} alt="DIVEBOMB" className="h-3.5 w-auto" />
@@ -138,25 +126,9 @@ export default function DBHeader({ theme, setTheme, showProgress = false, visual
                         </div>
 
                         <div className="flex items-center gap-2">
-                            <div className="flex items-center" ref={searchRef}>
-                                <div className={`flex items-center transition-all duration-300 ease-in-out ${isSearchOpen ? 'bg-neutral-100 dark:bg-neutral-800/50 rounded-md px-2' : ''}`}>
-                                    <button onClick={() => setIsSearchOpen(!isSearchOpen)} className="p-2 text-neutral-500 hover:text-db-lime transition-colors cursor-pointer shrink-0">
-                                        <Search size={18} />
-                                    </button>
-                                    <div className={`overflow-hidden transition-all duration-300 flex items-center ${isSearchOpen ? 'w-32 md:w-48 opacity-100' : 'w-0 opacity-0'}`}>
-                                        <input 
-                                            ref={inputRef}
-                                            type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
-                                            placeholder="Search..." className="bg-transparent border-none outline-none text-[12px] w-full text-neutral-900 dark:text-white py-1"
-                                        />
-                                        {searchQuery.length > 0 && (
-                                            <button onClick={() => setSearchQuery("")} className="p-1 text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors shrink-0 cursor-pointer">
-                                                <X size={14} />
-                                            </button>
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
+                            <button onClick={() => setIsSearchOpen(true)} className="p-2 text-neutral-500 hover:text-db-lime transition-colors cursor-pointer shrink-0">
+                                <Search size={18} />
+                            </button>
 
                             <button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} className="p-2 text-neutral-500 hover:text-db-lime transition-colors cursor-pointer shrink-0">
                                 {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
@@ -166,6 +138,30 @@ export default function DBHeader({ theme, setTheme, showProgress = false, visual
                                 <div className="h-0.5 w-6 bg-neutral-900 dark:bg-neutral-200 group-hover:bg-db-lime group-hover:w-4 transition-all duration-300" />
                                 <div className="h-0.5 w-4 bg-neutral-600 dark:bg-neutral-400 group-hover:bg-db-lime group-hover:w-6 transition-all duration-300" />
                                 <div className="h-0.5 w-5 bg-neutral-400 dark:bg-neutral-600 group-hover:bg-db-lime group-hover:w-3 transition-all duration-300" />
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* OVERLAY SEARCH BAR - Poses zero threat to layout links */}
+                    <div 
+                        ref={searchRef}
+                        className={`absolute inset-0 z-[110] bg-white dark:bg-db-black transition-all duration-300 ease-in-out flex items-center px-4 ${isSearchOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+                    >
+                        <div className="max-w-7xl mx-auto w-full flex items-center gap-4">
+                            <Search size={20} className="text-db-lime shrink-0" />
+                            <input 
+                                ref={inputRef}
+                                type="text" 
+                                value={searchQuery} 
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                placeholder="SEARCH ARTICLES, SERIES, DRIVERS..." 
+                                className="bg-transparent border-none outline-none text-lg font-bold tracking-tight w-full text-neutral-900 dark:text-white uppercase italic"
+                            />
+                            <button 
+                                onClick={() => { setIsSearchOpen(false); setSearchQuery(""); }} 
+                                className="p-2 text-neutral-500 hover:text-neutral-900 dark:hover:text-white transition-colors cursor-pointer"
+                            >
+                                <X size={24} />
                             </button>
                         </div>
                     </div>
@@ -185,7 +181,6 @@ export default function DBHeader({ theme, setTheme, showProgress = false, visual
                 </header>
             </div>
 
-            {/* Menu overlays (Mobile) */}
             {isMenuOpen && (
                 <div className="fixed inset-0 z-[120] bg-black/50 backdrop-blur-sm" onClick={() => setIsMenuOpen(false)} />
             )}
