@@ -1,9 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: 'export', 
+  output: 'export',
+  basePath: '/divebomb', // Match your repo name
   images: {
-    unoptimized: true, 
+    unoptimized: true,
   },
 };
 
