@@ -1,3 +1,6 @@
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 import { RootPage } from '@payloadcms/next/views'
 import payloadConfig from '../../../../payload.config'
 // @ts-ignore
