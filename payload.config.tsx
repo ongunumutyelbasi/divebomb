@@ -31,6 +31,7 @@ export default buildConfig({
   csrf: [process.env.NEXT_PUBLIC_SERVER_URL || ''].filter(Boolean),
   admin: {
     user: 'users',
+    theme: 'dark',
     meta: {
       titleSuffix: '- DIVEBOMB',
     },
