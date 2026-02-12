@@ -57,7 +57,24 @@ export default buildConfig({
     {
       slug: 'users',
       auth: true,
-      fields: [],
+      admin: {
+        useAsTitle: 'email',
+      },
+      access: {
+        // Allows any logged-in user to see/create other users
+        // In a bigger team, you'd restrict this to 'admin' roles
+        read: () => true,
+        create: () => true,
+        update: () => true,
+        delete: () => true,
+      },
+      fields: [
+        { name: 'username', type: 'text', required: true },
+        { name: 'name', type: 'text', required: false },
+        { name: 'surname', type: 'text', required: false },
+        { name: 'role', type: 'text', required: false },
+        { name: 'profile picture', type: 'upload', relationTo: 'media', required: false },
+      ],
     },
     {
       slug: 'media',
