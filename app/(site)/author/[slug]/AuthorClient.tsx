@@ -40,7 +40,7 @@ export default function AuthorClient({ author }: { author: Author }) {
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     
-    const ARTICLES_PER_PAGE = 6; // Set the number of articles to display per load
+    const ARTICLES_PER_PAGE = 9; // Set the number of articles to display per load
     const [visibleCount, setVisibleCount] = useState(ARTICLES_PER_PAGE);
 
     // Reset visible count whenever search or category changes

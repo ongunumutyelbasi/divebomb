@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Twitter, Mail, Search, Sun, Moon, X, MapPin, FileText, ArrowRight, ChevronUp, ChevronDown } from 'lucide-react';
-import DBFooter from '@/components/DBFooter';
-import DBHeader from '@/components/DBHeader';
+import DBHeader from '@/components/DBHeader'
+import DBFooter from '@/components/DBFooter'
 
 export default function AuthorProfile() {
     const [isSearchOpen, setIsSearchOpen] = useState(false);

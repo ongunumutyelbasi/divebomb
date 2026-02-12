@@ -150,28 +150,35 @@ export default function DivebombGlassPortal() {
                             
                             <div className="flex-grow grid grid-rows-6">
                                 {latestNews.map((article, i) => (
-                                    <a 
+                                    <div 
                                         key={i} 
-                                        href={article.link} 
-                                        target="_blank" 
-                                        rel="noopener noreferrer" 
-                                        className="group flex flex-col justify-center px-6 border-t border-neutral-200 dark:border-neutral-800/60 transition-colors"
+                                        onClick={() => window.open(article.link, '_blank', 'noopener,noreferrer')}
+                                        className="group flex flex-col justify-center px-6 border-t border-neutral-200 dark:border-neutral-800/60 cursor-pointer"
                                     >
                                         <div className="space-y-1">
                                             <p className="text-[14px] font-semibold leading-tight text-neutral-700 dark:text-neutral-300 group-hover:text-[#87AF00] dark:group-hover:text-db-lime transition-colors line-clamp-2">
                                                 {article.title}
                                             </p>
-                                            <div className="flex items-center gap-2 text-[10px] font-bold uppercase">
-                                                <span className="text-neutral-400 dark:text-neutral-500">
+                                            
+                                            <div className="flex items-center gap-2 text-[10px] font-bold uppercase text-neutral-400 dark:text-neutral-500">
+                                                <a 
+                                                    href={`/author/${getSlug(article.author)}`}
+                                                    onClick={(e) => {
+                                                        e.stopPropagation(); 
+                                                    }}
+                                                    className="hover:underline underline-offset-2 decoration-neutral-400 dark:decoration-neutral-500 transition-all cursor-pointer relative z-30"
+                                                >
                                                     {article.author}
-                                                </span>
+                                                </a>
+                                                
                                                 <span className="text-neutral-300 dark:text-neutral-600">//</span>
-                                                <span className="text-neutral-400 dark:text-neutral-500">
+                                                
+                                                <span>
                                                     {formatDate(article.cleanDate)}
                                                 </span>
                                             </div>
                                         </div>
-                                    </a>
+                                    </div>
                                 ))}
                             </div>
                         </aside>
