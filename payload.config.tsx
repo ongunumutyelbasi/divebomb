@@ -27,6 +27,8 @@ const Icon: any = () => (
 
 export default buildConfig({
   serverURL: process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000',
+  cors: [process.env.NEXT_PUBLIC_SERVER_URL || ''].filter(Boolean),
+  csrf: [process.env.NEXT_PUBLIC_SERVER_URL || ''].filter(Boolean),
   admin: {
     user: 'users',
     meta: {
@@ -73,7 +75,7 @@ export default buildConfig({
         { name: 'name', type: 'text', required: false },
         { name: 'surname', type: 'text', required: false },
         { name: 'role', type: 'text', required: false },
-        { name: 'profile picture', type: 'upload', relationTo: 'media', required: false },
+        { name: 'profile_picture', type: 'upload', relationTo: 'media', required: false },
       ],
     },
     {
