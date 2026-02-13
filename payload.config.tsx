@@ -7,6 +7,7 @@ import {
   UploadFeature,
 } from '@payloadcms/richtext-lexical'
 import React from 'react'
+import './styles/admin-custom.scss'
 
 // Graphics components
 const Logo: any = () => (
