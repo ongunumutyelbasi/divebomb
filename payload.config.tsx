@@ -65,8 +65,6 @@ export default buildConfig({
         useAsTitle: 'email',
       },
       access: {
-        // Allows any logged-in user to see/create other users
-        // In a bigger team, you'd restrict this to 'admin' roles
         read: () => true,
         create: () => true,
         update: () => true,
@@ -103,16 +101,141 @@ export default buildConfig({
       slug: 'posts',
       admin: {
         useAsTitle: 'title',
+        defaultColumns: ['title', 'status', 'category', 'publishedAt'],
+      },
+      hooks: {
+        beforeChange: [
+          ({ data }) => {
+            if (data.status === 'published' && !data.publishedAt) {
+              return {
+                ...data,
+                publishedAt: new Date().toISOString(),
+              };
+            }
+            return data;
+          },
+        ],
       },
       fields: [
-        { name: 'title', type: 'text', required: true },
+        {
+          name: 'title',
+          type: 'text',
+          required: true,
+        },
+        {
+          name: 'slug',
+          type: 'text',
+          unique: true,
+          required: true,
+          admin: {
+            position: 'sidebar',
+            description: 'Used for the URL (e.g., divebomb.app/post-slug)',
+          },
+          hooks: {
+            beforeValidate: [
+              ({ value, data }) => {
+                if (value) return value;
+                return data?.title
+                  ?.toLowerCase()
+                  .replace(/ /g, '-')
+                  .replace(/[^\w-]+/g, '');
+              },
+            ],
+          },
+        },
+        {
+          name: 'publishedAt',
+          type: 'date',
+          admin: {
+            position: 'sidebar',
+            date: {
+              pickerAppearance: 'dayAndTime',
+              timeIntervals: 15,
+            },
+          },
+        },
+        {
+          name: 'status',
+          type: 'select',
+          defaultValue: 'draft',
+          options: [
+            { label: 'Draft', value: 'draft' },
+            { label: 'In Review', value: 'review' },
+            { label: 'Published', value: 'published' },
+          ],
+          admin: {
+            position: 'sidebar',
+          },
+        },
+        {
+          name: 'category',
+          type: 'relationship',
+          relationTo: 'categories',
+          hasMany: true,
+          required: true,
+          admin: {
+            position: 'sidebar',
+          },
+        },
+        {
+          name: 'author',
+          type: 'relationship',
+          relationTo: 'authors',
+          required: true,
+          admin: {
+            position: 'sidebar',
+          },
+        },
+        {
+          name: 'featuredImage',
+          type: 'upload',
+          relationTo: 'media',
+          required: true,
+          admin: {
+            position: 'sidebar',
+          },
+        },
         {
           name: 'content',
           type: 'richText',
           required: true,
         },
-        { name: 'featuredImage', type: 'upload', relationTo: 'media', required: true },
-        { name: 'author', type: 'relationship', relationTo: 'authors', required: true },
+      ],
+    },
+    {
+      slug: 'categories',
+      admin: {
+        useAsTitle: 'title',
+      },
+      access: {
+        read: () => true,
+      },
+      fields: [
+        {
+          name: 'title',
+          type: 'text',
+          required: true,
+        },
+        {
+          name: 'slug',
+          type: 'text',
+          unique: true,
+          required: true,
+          admin: {
+            position: 'sidebar',
+          },
+          hooks: {
+            beforeValidate: [
+              ({ value, data }) => {
+                if (value) return value;
+                return data?.title
+                  ?.toLowerCase()
+                  .replace(/ /g, '-')
+                  .replace(/[^\w-]+/g, '');
+              },
+            ],
+          },
+        },
       ],
     },
   ],
