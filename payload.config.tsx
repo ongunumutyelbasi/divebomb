@@ -8,6 +8,7 @@ import {
 } from '@payloadcms/richtext-lexical'
 import React from 'react'
 import './src/styles/admin-custom.scss'
+import { uploadthingStorage } from '@payloadcms/storage-uploadthing'
 
 // Graphics components
 const Logo: any = () => (
@@ -43,6 +44,18 @@ export default buildConfig({
       },
     },
   },
+  // [FIXED] Added the plugins array here
+  plugins: [
+    uploadthingStorage({
+      collections: {
+        media: true,
+      },
+      options: {
+        token: process.env.UPLOADTHING_TOKEN,
+        acl: 'public-read',
+      },
+    }),
+  ],
   editor: lexicalEditor({
     features: ({ defaultFeatures }) => [
       ...defaultFeatures,
@@ -80,9 +93,8 @@ export default buildConfig({
     },
     {
       slug: 'media',
-      upload: {
-        staticDir: 'public/media', 
-      },
+      // [FIXED] Simplified upload for cloud storage
+      upload: true, 
       access: {
         read: () => true,
       },
